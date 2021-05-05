@@ -1,7 +1,6 @@
 class PagesController < ApplicationController
 
     def home
-        @city = request.location.city
         @helpall = Helpme.all 
         @todayscase = Helpme.where("created_at >= ?", Time.zone.now.beginning_of_day)
         @helpurgent = @todayscase.where("priority == ?", "High")
