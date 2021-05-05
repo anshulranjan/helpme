@@ -1,0 +1,57 @@
+<div class="bg-white">
+<div class="container">
+  <h1 class="text-center ">Create Help Requests</h1>
+  <p><h5><li>All fields are required.</li></h5></p>
+  <p><h5><li>Please give all information correctly</li></h5></P>
+  <p><h5><li>You cannot change or update the information later.</li></h5></P>
+  <%= form_with(model: @helpme, local: true) do |f| %>
+    <div class="form-group row mt-4">
+      <%= f.label :title, class:"col-sm-2 col-form-label" %>
+      <div class="col-sm-10">
+      <%= f.text_field :title, class:"form-control",  placeholder: "Title" %>
+      </div>
+    </div>
+    <div class="form-group row">
+        <%= f.label :description, class:"col-sm-2 col-form-label"%> 
+        <div class="col-sm-10">
+        <%= f.text_area :description, rows:10, class:"form-control" ,  placeholder: "Give Detailed Description"%> 
+        </div>
+    </div>
+    <div class="form-group row">
+      <%= f.label :name, class:"col-sm-2 col-form-label" %>
+      <div class="col-sm-10">
+      <%= f.text_field :name, class:"form-control",  placeholder: "Your Name" %>
+      </div>
+    </div>
+    
+    <div class="form-group row">
+      <%= f.label :state, class:"col-sm-2 col-form-label" %>
+      <div class="col-sm-10">
+      <%= f.collection_select(:state, State.all, :name, :name, { prompt: "Select the state"}, { multiple: false, size: 1, class: "custom-select shadow rounded" }) %>
+      </div>
+    </div>
+    <div class="form-group row">
+      <%= f.label :priority, class:"col-sm-2 col-form-label" %>
+      <div class="col-sm-10">
+      <%= f.select :priority, ['High', 'Medium', 'Low'], { prompt: "Select the priority"}, { multiple: false, size: 1, class: "custom-select shadow rounded" } %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+        <%= f.label :address, class:"col-sm-2 col-form-label"%> 
+        <div class="col-sm-10">
+        <%= f.text_area :address, rows:6, class:"form-control" ,  placeholder: "Provide Complete Address"%> 
+        </div>
+    </div>
+    <div class="form-group row">
+      <%= f.label :contact, class:"col-sm-2 col-form-label" %>
+      <div class="col-sm-10">
+      <%= f.number_field :contact, class:"form-control",  placeholder: "Provide your contact number" %>
+      </div>
+    </div>
+    <div class="form-group row justify-content-center">
+        <%= f.submit "Submit Details" , class: "btn btn btn-primary mb-4"%> 
+      </div>
+    <% end %>
+</div>
+</div>

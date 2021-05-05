@@ -1,0 +1,152 @@
+<div class="container-fluid bg-white">
+  <section id="minimal-statistics">
+    <div class="row">
+      <div class="col-12 mt-3 mb-1">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm"> 
+        <div class="card ">
+          <div class="card-content grey-bg shadow-lg">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                  <i class="material-icons font-large-2 float-left" style="color:blue;">north</i>
+                </div>
+                <div class="media-body text-right">
+                  <h1><%= @helpall.count %></h1>
+                  <span><h2>Total Cases</h2></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="card">
+          <div class="card-content grey-bg shadow-lg">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                <i class="material-icons font-large-2 float-left" style="color:black;">check</i>
+                </div>
+                <div class="media-body text-right">
+                  <h1><%= @todayscase.count %></h1>
+                  <span><h2>Added Today</h2></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="card">
+          <div class="card-content grey-bg shadow-lg">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                <i class="material-icons font-large-2 float-left " style="color:red;">pending</i>
+                </div>
+                <div class="media-body text-right">
+                  <h1><%= @helpurgent.count %></h1>
+                  <span><h2><%= link_to "Urgent Today", root_path(urgency: "yes") %></h2></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+    <div class="col-sm col-xs-12 ml-2">
+        <div class="dropdown text-left">
+            <button class="dropbtn">
+            <% if @value_state.blank? %>
+              State
+            <% else %>
+              <%= @value_state %>
+            <% end %>
+            
+            </button>
+            <div class="dropdown-content">
+            <% @state.each do |state| %>
+              <%= link_to state.name, root_path(state: state.name) %>
+            <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm col-xs-12 ml-2">
+      <div class="dropdown text-left">
+            <button class="dropbtn">
+            <% if @value_priority.blank? %>
+              Priority
+            <% else %>
+              <%= @value_priority %>
+            <% end %>
+            </button>
+            <div class="dropdown-content">
+            <%= link_to "High", root_path(priority: "High") %>
+            <%= link_to "Medium", root_path(priority: "Medium") %>
+            <%= link_to "Low", root_path(priority: "Low") %>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm ml-2">
+          <div class="dropdown text-left">
+          <button class="dropbtn">
+              <%= link_to "Add Reuqest", new_helpme_path %>
+          </button>
+      </div>
+    </div>
+  </div>
+  </section>
+  
+  <div class = "container mt-5">
+  <div class="apple_pagination mb-3">
+    <%= will_paginate @helpme, :container => false %>
+  </div>
+  <% if @helpme.count ==0 %>
+  <h3> No Result Found </h3>
+  <% else %>
+  <% @helpme.each do |helpme| %>
+    <div class="card overflow-hidden">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="media align-items-stretch">
+            <div class="align-self-center">
+              <% if helpme.priority == "High" %>
+                <i class="material-icons font-large-2 mr-2 " style="color:red;">circle</i>
+              <% elsif helpme.priority == "Medium" %>
+                <i class="material-icons font-large-2 mr-2 " style="color:yellow;">circle</i>
+              <% else %>
+                <i class="material-icons font-large-2 mr-2 " style="color:green;">circle</i>
+              <% end %>
+            </div>
+            <div class="media-body">
+              <h1><%= helpme.title %></h1>
+              <h5><%= helpme.name %> , <%= helpme.city %> , <%= helpme.state %> </h5>
+              <span> <%= simple_format(helpme.description) %> </span>
+              <br>
+              <br>
+              <div class="row">
+                <div class="col">
+                  <i class="material-icons font-large-2 mr-2 ml-3 " style="color:black;">home</i><%= helpme.address %>
+                </div>
+                <div class="col">
+                  <i class="material-icons font-large-2 mr-2 ml-3" style="color:black;">call</i> <%= number_to_phone(helpme.contact, country_code: 91,delimiter: ' ') %>
+                </div>
+              </div>
+            </div>
+            <h6> <%= time_ago_in_words(helpme.created_at) %> ago  <h6>
+          </div>
+        </div>
+       </div>
+      </div>
+    <% end %>
+    <% end %>
+    <div class="apple_pagination mt-3">
+    <%= will_paginate @helpme, :container => false %>
+  </div>
+</div>
